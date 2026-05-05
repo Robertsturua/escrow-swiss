@@ -6,19 +6,17 @@
   "engines": {
     "node": "20.x"
   },
-"scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "postinstall": "npm rebuild sqlite3"
+  "scripts": {
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
-"dependencies": {
+  "dependencies": {
     "cookie-parser": "^1.4.7",
     "ejs": "^5.0.2",
     "express": "^5.2.1",
-    "sqlite3": "^6.0.1"
+    "sqlite3": "^5.1.7"
   }
 }
