@@ -1,0 +1,110 @@
+<%- include('partials/header') %>
+
+    <div class="page-header text-center">
+        <div class="container">
+            <h1>Secure Escrow Portal</h1>
+            <p>Initiate a new transaction or contact our mediation team.</p>
+        </div>
+    </div>
+
+    <section class="form-section">
+        <div class="container">
+            <div class="form-wrapper">
+                
+                <!-- Contact Info Left Side -->
+                <div class="form-info">
+                    <h3>Contact Information</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 30px;">Our legal and administrative teams are available to assist you with high-value transaction routing and neutral mediation.</p>
+                    
+                    <ul style="list-style: none; padding: 0; margin-bottom: 40px;">
+                        <li style="margin-bottom: 25px; display: flex; gap: 15px;">
+                            <span style="font-size: 24px;">📍</span>
+                            <div>
+                                <strong style="color: var(--navy); display: block; font-size: 18px; margin-bottom: 5px;">Swiss Headquarters</strong>
+                                <span style="color: var(--text-muted); line-height: 1.6;">
+                                    Hardstrasse 201<br>
+                                    8005 Zürich<br>
+                                    Switzerland
+                                </span>
+                            </div>
+                        </li>
+                        <li style="margin-bottom: 25px; display: flex; gap: 15px;">
+                            <span style="font-size: 24px;">✉️</span>
+                            <div>
+                                <strong style="color: var(--navy); display: block; font-size: 18px; margin-bottom: 5px;">Secure Email Support</strong>
+                                <a href="mailto:support@escrow.com" style="color: var(--gold); text-decoration: none; font-weight: 600;">support@escrow.com</a>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <div class="trust-box">
+                        <strong>Important Security Notice:</strong> Swissescrow agents will NEVER ask for upfront advisory fees, sensitive passwords, or private wallet keys. All communications will come strictly from an <em>@escrow.com</em> domain.
+                    </div>
+                </div>
+
+                <!-- Form / Success Right Side -->
+                <div class="escrow-form">
+                    
+                    <% if (success) { %>
+                        <!-- CLASSY SUCCESS CONFIRMATION -->
+                        <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; padding: 40px 30px; border-radius: 8px; text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center;">
+                            <div style="width: 60px; height: 60px; background-color: #166534; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; margin: 0 auto 20px;">✓</div>
+                            <h3 style="color: #166534; margin-bottom: 15px; font-size: 24px;">Inquiry Securely Routed</h3>
+                            <p style="color: #15803d; font-size: 16px; margin-bottom: 30px; line-height: 1.6;">
+                                Your message has been successfully encrypted and delivered to our administrative team in Zürich. An assigned mediation officer will review your transaction details and contact you within 24 hours.
+                            </p>
+                            <a href="/" class="btn" style="background-color: #166534; color: white; text-decoration: none; padding: 12px 25px; border-radius: 4px; font-weight: 600; display: inline-block;">Return to Homepage</a>
+                        </div>
+                    <% } else { %>
+                        <!-- THE FORM -->
+                        <h3 style="color: var(--navy); margin-bottom: 20px;">Submit an Inquiry</h3>
+                        <form action="/submit-form" method="POST">
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>First Name *</label>
+                                    <input type="text" name="firstName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Last Name *</label>
+                                    <input type="text" name="lastName" required>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Email Address *</label>
+                                    <input type="email" name="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Phone Number *</label>
+                                    <input type="tel" name="phone" required placeholder="+1 234 567 8900">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Transaction Category</label>
+                                <select name="transactionType">
+                                    <option value="General Inquiry">General Inquiry / Support</option>
+                                    <option value="Digital Asset Transfer">Digital Asset Transfer</option>
+                                    <option value="Corporate M&A">Corporate M&A Holdback</option>
+                                    <option value="Real Estate">Real Estate Settlement</option>
+                                    <option value="Dispute Mediation">Dispute Mediation</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Message / Transaction Details *</label>
+                                <textarea name="message" rows="5" required placeholder="Please provide an overview of your inquiry..."></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-gold full-width-btn">Send Secure Message</button>
+                        </form>
+                    <% } %>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,123 @@
+<%- include('partials/header') %>
+
+    <div style="background-color: var(--navy-light); padding: 15px 0; border-bottom: 3px solid var(--gold);">
+        <div class="container" style="display: flex; gap: 20px; flex-wrap: wrap;">
+            <a href="/admin" style="color: var(--gold); text-decoration: none; font-weight: 600; font-size: 16px;">⛃ Transaction Database</a>
+            <a href="/admin/messages" style="color: white; text-decoration: none; font-weight: 600; font-size: 16px; position: relative;">
+                ✉️ Secure Inbox
+                <% if (unreadCount > 0) { %>
+                    <span style="background-color: #ef4444; color: white; font-size: 11px; padding: 2px 6px; border-radius: 10px; position: absolute; top: -10px; right: -20px;"><%= unreadCount %> New</span>
+                <% } %>
+            </a>
+        </div>
+    </div>
+
+    <div class="page-header text-center" style="background-color: var(--navy); padding: 40px 20px;">
+        <div class="container">
+            <h1 style="color: white;"><%= isNew ? 'Create New Transaction' : 'Edit Transaction: ' + id %></h1>
+        </div>
+    </div>
+
+    <section class="form-section">
+        <div class="container" style="max-width: 800px;">
+            
+            <div style="background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--gold);">
+                <form action="<%= isNew ? '/admin/add' : '/admin/edit/' + id %>" method="post">
+                    
+                    <% if (isNew) { %>
+                        <div class="form-group">
+                            <label>Tracking ID (e.g., SWX-123) *</label>
+                            <input type="text" name="trackId" required style="text-transform: uppercase;">
+                        </div>
+                    <% } %>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Client Email *</label>
+                            <input type="email" name="email" value="<%= tx ? tx.email : '' %>" required>
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: flex-end; padding-bottom: 15px;">
+                            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                                <input type="checkbox" name="isEmailVisible" style="width: 20px; height: 20px;" <%= (tx && tx.isEmailVisible) ? 'checked' : '' %>>
+                                Show Email to Client
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Asset Title *</label>
+                            <input type="text" name="assetName" value="<%= tx ? tx.asset : '' %>" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Estimated Timeframe (Text) *</label>
+                            <input type="text" name="estimatedTime" value="<%= tx ? tx.estimatedTime : '' %>" required placeholder="e.g., 14 Business Days">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Detailed Asset Specifications *</label>
+                        <input type="text" name="assetDetails" value="<%= tx ? tx.assetDetails : '' %>" required>
+                    </div>
+
+                    <!-- AUTOMATED TIMER CONTROLS -->
+                    <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 6px; margin-bottom: 25px; border-left: 4px solid var(--navy);">
+                        <h4 style="color: var(--navy); margin-bottom: 15px;">Compliance Countdown Timer</h4>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Timer Deadline Date & Time</label>
+                                <input type="datetime-local" name="timerDeadline" value="<%= tx ? tx.timerDeadline : '' %>">
+                            </div>
+                            <div class="form-group">
+                                <label>Timer Control State</label>
+                                <!-- Using loose equality (==) for perfect syncing -->
+                                <select name="timerState">
+                                    <option value="off" <%= (!tx || tx.timerState == 'off') ? 'selected' : '' %>>🛑 Timer Off (Hidden)</option>
+                                    <option value="running" <%= (tx && tx.timerState == 'running') ? 'selected' : '' %>>▶️ Timer Running</option>
+                                    <option value="paused" <%= (tx && tx.timerState == 'paused') ? 'selected' : '' %>>⏸️ Timer Paused</option>
+                                    <option value="expired" <%= (tx && tx.timerState == 'expired') ? 'selected' : '' %>>⚠️ Timer Expired</option>
+                                </select>
+                            </div>
+                        </div>
+                        <p style="font-size: 12px; color: #64748b; margin: 0;">If set to 'Running', the system will automatically change the Alert Override State below to 'Attention Required' when the clock hits zero.</p>
+                    </div>
+
+                    <!-- STATUS & ALERTS -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Normal Progress (1-5) *</label>
+                            <!-- Using loose equality (==) ensures numbers and strings match seamlessly -->
+                            <select name="status" required>
+                                <option value="1" <%= (tx && tx.status == 1) ? 'selected' : '' %>>1 - Agreeing Terms</option>
+                                <option value="2" <%= (tx && tx.status == 2) ? 'selected' : '' %>>2 - Sender Funding</option>
+                                <option value="3" <%= (tx && tx.status == 3) ? 'selected' : '' %>>3 - Registering Receiver</option>
+                                <option value="4" <%= (tx && tx.status == 4) ? 'selected' : '' %>>4 - Reviewing Transaction</option>
+                                <option value="5" <%= (tx && tx.status == 5) ? 'selected' : '' %>>5 - Funds Released</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Alert Override State *</label>
+                            <select name="alertState" required>
+                                <option value="none" <%= (!tx || !tx.alertState || tx.alertState == 'none') ? 'selected' : '' %>>🟢 None (Normal Progress)</option>
+                                <option value="attention" <%= (tx && tx.alertState == 'attention') ? 'selected' : '' %> style="background-color: #fef08a; font-weight: bold;">⚠️ Attention Required</option>
+                                <option value="declined" <%= (tx && tx.alertState == 'declined') ? 'selected' : '' %> style="background-color: #fecaca; font-weight: bold;">❌ Declined / Frozen</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Agent Directives & Notes (Visible to Client)</label>
+                        <textarea name="additionalInfo" rows="4" placeholder="e.g., Action required regarding KYC documents..."><%= tx ? tx.additionalInfo : '' %></textarea>
+                    </div>
+
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                        <button type="submit" class="btn btn-gold" style="flex: 2; min-width: 200px;">Save Transaction</button>
+                        <a href="/admin" class="btn btn-outline" style="flex: 1; text-align: center; border-color: var(--navy); color: var(--navy); min-width: 150px;">Cancel</a>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,69 @@
+<%- include('partials/header') %>
+
+    <div style="background-color: var(--navy-light); padding: 15px 0; border-bottom: 3px solid var(--gold);">
+        <!-- Added flex-wrap for mobile menu -->
+        <div class="container" style="display: flex; gap: 20px; flex-wrap: wrap;">
+            <a href="/admin" style="color: white; text-decoration: none; font-weight: 600; font-size: 16px;">⛃ Transaction Database</a>
+            <a href="/admin/messages" style="color: var(--gold); text-decoration: none; font-weight: 600; font-size: 16px; position: relative;">
+                ✉️ Secure Inbox
+                <% if (unreadCount > 0) { %>
+                    <span style="background-color: #ef4444; color: white; font-size: 11px; padding: 2px 6px; border-radius: 10px; position: absolute; top: -10px; right: -20px;"><%= unreadCount %> New</span>
+                <% } %>
+            </a>
+        </div>
+    </div>
+
+    <div class="page-header" style="background-color: var(--navy); padding: 40px 20px;">
+        <div class="container">
+            <h1 style="font-size: 32px; color: white;">Secure Inbox</h1>
+            <p style="margin:0; color: #94a3b8;">Client inquiries and escrow requests.</p>
+        </div>
+    </div>
+
+    <section class="form-section" style="min-height: 60vh; background-color: white;">
+        <div class="container">
+            <div style="background: white; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow-x: auto; border: 1px solid #e2e8f0;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left; min-width: 600px;">
+                    <thead>
+                        <tr style="background-color: #f1f5f9; color: var(--navy); border-bottom: 2px solid #e2e8f0;">
+                            <th style="padding: 15px 20px;">Date Received</th>
+                            <th style="padding: 15px 20px;">Client Name</th>
+                            <th style="padding: 15px 20px;">Category</th>
+                            <th style="padding: 15px 20px;">Status</th>
+                            <th style="padding: 15px 20px; text-align: right;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% messages.forEach(msg => { %>
+                            <tr style="border-bottom: 1px solid #e2e8f0; background-color: <%= msg.isRead === 0 ? '#f0fdf4' : 'transparent' %>;">
+                                <td style="padding: 15px 20px; color: #475569; font-size: 14px;"><%= msg.timestamp %></td>
+                                <td style="padding: 15px 20px;">
+                                    <strong style="color: var(--navy);"><%= msg.firstName %> <%= msg.lastName %></strong>
+                                </td>
+                                <td style="padding: 15px 20px; color: #475569;"><%= msg.transactionType %></td>
+                                <td style="padding: 15px 20px;">
+                                    <% if (msg.isRead === 0) { %>
+                                        <span style="background: #ef4444; color: white; padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; display: inline-block;">Unread</span>
+                                    <% } else { %>
+                                        <span style="color: #94a3b8; font-size: 13px;">Opened</span>
+                                    <% } %>
+                                </td>
+                                <!-- Added flex-wrap for action buttons on mobile -->
+                                <td style="padding: 15px 20px; text-align: right; display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap;">
+                                    <a href="/admin/messages/<%= msg.id %>" class="btn btn-gold" style="padding: 6px 12px; font-size: 13px;">Read Message</a>
+                                    <form action="/admin/messages/delete/<%= msg.id %>" method="POST" style="margin: 0;" onsubmit="return confirm('Delete this message permanently?');">
+                                        <button type="submit" style="color: #991b1b; font-weight: bold; background: #fee2e2; padding: 6px 12px; border-radius: 4px; border: 1px solid #f87171; cursor: pointer;">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+                <% if(messages.length === 0) { %>
+                    <p style="padding: 30px; text-align: center; color: #64748b;">Inbox is empty.</p>
+                <% } %>
+            </div>
+        </div>
+    </section>
+
+<%- include('partials/footer') %>

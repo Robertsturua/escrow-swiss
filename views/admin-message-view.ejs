@@ -1,0 +1,59 @@
+<%- include('partials/header') %>
+
+    <!-- ADMIN NAVIGATION MENU -->
+    <div style="background-color: var(--navy-light); padding: 15px 0; border-bottom: 3px solid var(--gold);">
+        <div class="container" style="display: flex; gap: 30px;">
+            <a href="/admin" style="color: white; text-decoration: none; font-weight: 600; font-size: 16px;">⛃ Transaction Database</a>
+            <a href="/admin/messages" style="color: var(--gold); text-decoration: none; font-weight: 600; font-size: 16px; position: relative;">
+                ✉️ Secure Inbox
+                <% if (unreadCount > 0) { %>
+                    <span style="background-color: #ef4444; color: white; font-size: 11px; padding: 2px 6px; border-radius: 10px; position: absolute; top: -10px; right: -20px;"><%= unreadCount %> New</span>
+                <% } %>
+            </a>
+        </div>
+    </div>
+
+    <section class="form-section" style="min-height: 60vh;">
+        <div class="container" style="max-width: 800px;">
+            
+            <a href="/admin/messages" style="color: var(--navy); text-decoration: none; font-weight: bold; display: inline-block; margin-bottom: 20px;">&larr; Back to Inbox</a>
+
+            <div style="background: white; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--navy); padding: 40px;">
+                
+                <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 20px;">
+                    <h2 style="color: var(--navy); margin-bottom: 10px;">Inquiry: <%= msg.transactionType %></h2>
+                    <p style="color: #64748b; font-size: 14px;">Received: <%= msg.timestamp %></p>
+                </div>
+
+                <div style="display: flex; flex-wrap: wrap; gap: 30px; margin-bottom: 30px; background-color: #f8fafc; padding: 20px; border-radius: 6px;">
+                    <div>
+                        <span style="display: block; font-size: 12px; color: #64748b; font-weight: bold; text-transform: uppercase;">Client Name</span>
+                        <strong style="color: var(--navy); font-size: 16px;"><%= msg.firstName %> <%= msg.lastName %></strong>
+                    </div>
+                    <div>
+                        <span style="display: block; font-size: 12px; color: #64748b; font-weight: bold; text-transform: uppercase;">Email Address</span>
+                        <a href="mailto:<%= msg.email %>" style="color: var(--gold); font-weight: bold;"><%= msg.email %></a>
+                    </div>
+                    <div>
+                        <span style="display: block; font-size: 12px; color: #64748b; font-weight: bold; text-transform: uppercase;">Phone Number</span>
+                        <strong style="color: var(--navy); font-size: 16px;"><%= msg.phone %></strong>
+                    </div>
+                </div>
+
+                <div>
+                    <span style="display: block; font-size: 12px; color: #64748b; font-weight: bold; text-transform: uppercase; margin-bottom: 10px;">Message Contents</span>
+                    <p style="color: #333; line-height: 1.8; font-size: 16px; white-space: pre-wrap;"><%= msg.message %></p>
+                </div>
+
+                <div style="margin-top: 50px; text-align: right;">
+                    <form action="/admin/messages/delete/<%= msg.id %>" method="POST" onsubmit="return confirm('Delete this message permanently?');">
+                        <button type="submit" style="color: #991b1b; font-weight: bold; background: #fee2e2; padding: 10px 20px; border-radius: 4px; border: 1px solid #f87171; cursor: pointer;">Delete Message</button>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+<%- include('partials/footer') %>

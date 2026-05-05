@@ -1,0 +1,30 @@
+<%- include('partials/header') %>
+
+    <div class="page-header text-center">
+        <div class="container">
+            <h1>Track Your Transaction</h1>
+            <p>Enter your secure Escrow ID to view live status updates.</p>
+        </div>
+    </div>
+
+    <section class="form-section" style="min-height: 50vh;">
+        <div class="container" style="max-width: 600px; margin: 0 auto;">
+            
+            <% if (error) { %>
+                <div class="alert-banner text-center" style="margin-bottom: 20px; border-radius: 4px;">
+                    <strong>Error:</strong> <%= error %>
+                </div>
+            <% } %>
+
+            <form action="/track-search" method="post" style="background: white; padding: 40px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-top: 4px solid var(--navy);">
+                <div class="form-group">
+                    <label for="trackingId">Transaction ID (e.g., SWX-77A9B)</label>
+                    <input type="text" id="trackingId" name="trackingId" required placeholder="Enter ID here..." style="font-size: 18px; text-transform: uppercase;">
+                </div>
+                <button type="submit" class="btn btn-gold full-width-btn">Track Status</button>
+            </form>
+
+        </div>
+    </section>
+
+<%- include('partials/footer') %>

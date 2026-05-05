@@ -1,0 +1,289 @@
+<%- include('partials/header') %>
+
+    <!-- OFFICIAL INSTITUTIONAL PROGRESS BAR STYLES FOR MOCKUP -->
+    <style>
+        .mockup-tracker .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #fff;
+            border: 2px solid #cbd5e1;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+            z-index: 2;
+            transition: all 0.3s ease;
+            margin: 0 auto;
+        }
+
+        .mockup-tracker .progress-step.active:not(.current) .step-circle {
+            background-color: #10b981 !important; 
+            border: 2px solid #064e3b !important; 
+            color: white !important;
+        }
+
+        .mockup-tracker .progress-step.current .step-circle {
+            background-color: #fff !important; 
+            border: 3px solid #2563eb !important; 
+            color: #2563eb !important;
+            animation: subtle-glow 2.5s infinite alternate ease-in-out;
+        }
+
+        @keyframes subtle-glow {
+            0% { box-shadow: 0 0 4px rgba(37, 99, 235, 0.2), 0 0 0 2px rgba(37, 99, 235, 0.05); }
+            100% { box-shadow: 0 0 12px rgba(37, 99, 235, 0.5), 0 0 0 5px rgba(37, 99, 235, 0.15); }
+        }
+
+        /* DESKTOP LAYOUT (Default) */
+        .mockup-tracker .progress-bar-container {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px; 
+            background: white; 
+            padding: 40px 20px; 
+            border-radius: 8px; 
+            border: 1px solid #e2e8f0; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+        .mockup-tracker .progress-line { 
+            background-color: #e2e8f0 !important; 
+            position: absolute;
+            top: 60px; 
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            z-index: 1;
+        }
+        .mockup-tracker .progress-step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+            z-index: 2;
+        }
+        .mockup-tracker .progress-step span {
+            color: #94a3b8;
+            font-weight: 500;
+            margin-top: 15px;
+            font-size: 14px;
+            display: block;
+        }
+        .mockup-tracker .progress-step.active:not(.current) span { color: #10b981; }
+        .mockup-tracker .progress-step.current span { color: #2563eb; font-weight: 700; }
+
+        /* --- MOBILE RESPONSIVE FIXES (VERTICAL TIMELINE) --- */
+        @media (max-width: 768px) {
+            .mockup-tracker .progress-bar-container {
+                flex-direction: column !important;
+                padding: 30px 25px !important;
+                gap: 30px !important;
+            }
+            .mockup-tracker .progress-line {
+                top: 40px !important; 
+                bottom: 40px !important;
+                left: 44px !important; /* Perfectly centers the line behind the circles */
+                width: 2px !important;
+                height: auto !important;
+                right: auto !important;
+            }
+            .mockup-tracker .progress-step {
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                text-align: left !important;
+            }
+            .mockup-tracker .step-circle {
+                width: 38px !important;
+                height: 38px !important;
+                margin: 0 !important;
+                flex-shrink: 0;
+            }
+            .mockup-tracker .progress-step span {
+                margin-top: 0 !important;
+                margin-left: 20px !important;
+                font-size: 15px !important;
+            }
+        }
+    </style>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container text-center hero-content">
+            <h1>Neutral, Transparent, and Secure.</h1>
+            <p>A registered Swiss non-profit organization dedicated to providing impartial legal support and oversight for your global transactions.</p>
+            
+            <!-- UPDATED HERO BUTTONS FOR BETTER USER FLOW -->
+            <div class="hero-buttons" style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 30px;">
+                <a href="/track" class="btn btn-gold">Track Your Transaction</a>
+                <a href="/contact" class="btn btn-outline">Contact Us to Start</a>
+                <a href="#tracker" class="btn btn-outline">How It Works</a>
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Transparent Non-Profit Banner -->
+    <div class="compliance-banner">
+        <div class="container compliance-container">
+            <span><strong>Our Commitment:</strong></span>
+            <span>✅ Registered Swiss Non-Profit</span>
+            <span>✅ Zero Hidden Fees</span>
+            <span>✅ Impartial Dispute Resolution</span>
+            <span>✅ Strict Data Protection (FADP)</span>
+        </div>
+    </div>
+
+    <!-- The History of Escrow Section -->
+    <section class="info-section bg-light">
+        <div class="container">
+            <div style="max-width: 900px; margin: 0 auto;">
+                <h2 class="section-title text-center">A Tradition of Trust</h2>
+                <p class="section-subtitle text-center" style="margin-bottom: 40px;">The history and global necessity of third-party mediation.</p>
+                
+                <div style="background: var(--white); padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 30px; border-left: 4px solid var(--gold);">
+                    <h3 style="color: var(--navy); margin-bottom: 15px;">The Origins of Escrow</h3>
+                    <p style="color: var(--text-main); font-size: 16px; line-height: 1.8; text-align: justify;">
+                        The concept of escrow is a cornerstone of common law that dates back to the Middle Ages. The term itself derives from the Old French word <em>"escroue"</em>, meaning a scrap of paper or a scroll. Historically, it referred to a deed or legal document held by a trusted third party, which would only be delivered to the grantee once specific conditions were fulfilled. For centuries, this mechanism has been the ultimate safeguard to ensure that promises made between two parties are strictly kept.
+                    </p>
+                </div>
+
+                <div style="background: var(--white); padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border-left: 4px solid var(--navy);">
+                    <h3 style="color: var(--navy); margin-bottom: 15px;">Global Impact Today</h3>
+                    <p style="color: var(--text-main); font-size: 16px; line-height: 1.8; text-align: justify;">
+                        Today, escrow mechanisms facilitate hundreds of billions of dollars in global trade annually. In the real estate sector, nearly every property transfer relies on a settlement or escrow phase. In corporate Mergers & Acquisitions (M&A), escrow accounts are the standard for holding back a percentage of the purchase price to mitigate counterparty risk. From software source code to international supply chain logistics, independent oversight is the backbone of the modern economy.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="info-section">
+        <div class="container">
+            <h2 class="section-title">Our Role in Your Transaction</h2>
+            <p class="section-subtitle">We provide the administrative framework and legal mediation required to keep your agreements safe.</p>
+            
+            <div class="grid-3">
+                <div class="card premium-card">
+                    <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=800&q=80" alt="Transaction Support" class="card-img">
+                    <div class="card-content">
+                        <h3>Administrative Oversight</h3>
+                        <p>We do not operate as a bank. Instead, we provide the strict administrative oversight and document verification needed to ensure that funds are only moved when contractual obligations are met.</p>
+                    </div>
+                </div>
+                <div class="card premium-card">
+                    <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=800&q=80" alt="Legal Jurisdiction" class="card-img">
+                    <div class="card-content">
+                        <h3>Neutral Mediation</h3>
+                        <p>If a disagreement arises regarding the quality or delivery of an asset, our team steps in to provide impartial, fact-based mediation rooted in the original terms of your agreement.</p>
+                    </div>
+                </div>
+                <div class="card premium-card">
+                    <img src="https://images.unsplash.com/photo-1614028674026-a65e31bfd27c?auto=format&fit=crop&w=800&q=80" alt="Secure Digital Assets" class="card-img">
+                    <div class="card-content">
+                        <h3>Data Privacy</h3>
+                        <p>Operating under Swiss jurisdiction means your personal and corporate transaction data is protected by some of the most rigorous privacy laws in the world.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Tracker Mockup with Official Circles -->
+    <section id="tracker" class="tracker-section bg-light">
+        <div class="container">
+            <h2 class="section-title">Transparent Transaction Tracking</h2>
+            <p class="section-subtitle">Both parties track the administrative status of their agreement in real-time.</p>
+            
+            <div class="tracker-widget mockup-tracker" style="border-top: 4px solid var(--navy);">
+                <div class="tracker-header" style="border-bottom: 2px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 30px;">
+                    <div>
+                        <h4 style="color: var(--navy); font-size: 22px; margin-bottom: 5px;">Transaction ID: #SWX-77A9B</h4>
+                        <p style="color: #64748b; font-size: 14px; margin-bottom: 0;">Asset: Contractual Service Agreement</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <span style="font-size: 12px; text-transform: uppercase; font-weight: bold; color: #64748b;">Current Phase</span>
+                        <h5 style="color: #38bdf8; margin-top: 5px; font-size: 18px;">Registering Receiver</h5>
+                    </div>
+                </div>
+                
+                <div class="progress-bar-container">
+                    <div class="progress-line"></div>
+                    <div class="progress-step active">
+                        <div class="step-circle">✓</div>
+                        <span>Terms Agreed</span>
+                    </div>
+                    <div class="progress-step active">
+                        <div class="step-circle">✓</div>
+                        <span>Sender Funded</span>
+                    </div>
+                    <div class="progress-step current">
+                        <div class="step-circle">3</div>
+                        <span>Registering Receiver</span>
+                    </div>
+                    <div class="progress-step">
+                        <div class="step-circle">4</div>
+                        <span>Reviewing</span>
+                    </div>
+                    <div class="progress-step">
+                        <div class="step-circle">5</div>
+                        <span>Releasing Funds</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-container">
+                <details class="faq-item">
+                    <summary>Are you a bank or financial institution?</summary>
+                    <div class="faq-content">
+                        <p>No. Swissescrow is a registered non-profit organization providing administrative support and legal mediation. We work alongside established banking partners to facilitate the secure routing of your funds, but we do not operate as an investment bank or speculative exchange.</p>
+                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary>Why do you operate as a non-profit?</summary>
+                    <div class="faq-content">
+                        <p>To guarantee absolute neutrality. When an organization takes a percentage of a transaction, they have a financial incentive to push the deal through, regardless of disputes. By removing profit from the equation, our only motivation is ensuring your transaction is executed fairly and safely.</p>
+                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary>What happens during a dispute?</summary>
+                    <div class="faq-content">
+                        <p>If the receiver rejects the delivered asset or service during the review period, the funds remain frozen in the partnered escrow account. Our team steps in to review the original agreement and mediate the dispute until an amicable resolution is reached.</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- News & Insights Widget -->
+    <section id="news" class="news-section bg-light">
+        <div class="container">
+            <h2 class="section-title">Industry Insights</h2>
+            <div class="grid-2">
+                <div class="news-widget">
+                    <span class="news-date">October 14, 2026</span>
+                    <h4>The Importance of Independent Oversight</h4>
+                    <p>Why modern cross-border transactions require more than just a banking application to ensure both parties fulfill their contractual obligations...</p>
+                    <a href="/news-eu" class="read-more">Read Full Article &rarr;</a>
+                </div>
+                <div class="news-widget">
+                    <span class="news-date">September 28, 2026</span>
+                    <h4>Understanding Swiss Data Privacy</h4>
+                    <p>A deep dive into how the Swiss Federal Act on Data Protection (FADP) secures your corporate and personal information during mediation...</p>
+                    <a href="/news-fraud" class="read-more">Read Full Article &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<%- include('partials/footer') %>

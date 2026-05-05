@@ -1,0 +1,34 @@
+<%- include('partials/header') %>
+
+    <div class="page-header text-center" style="background-color: #0f172a;">
+        <div class="container">
+            <h1>Admin Authentication</h1>
+            <p>Restricted Access Area</p>
+        </div>
+    </div>
+
+    <section class="form-section" style="min-height: 50vh;">
+        <div class="container" style="max-width: 500px; margin: 0 auto;">
+            
+            <% if (error) { %>
+                <div class="alert-banner text-center" style="margin-bottom: 20px; border-radius: 4px;">
+                    <strong><%= error %></strong>
+                </div>
+            <% } %>
+
+            <form action="/admin/login" method="post" style="background: white; padding: 40px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-top: 4px solid var(--navy);">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-gold full-width-btn">Secure Login</button>
+            </form>
+
+        </div>
+    </section>
+
+<%- include('partials/footer') %>

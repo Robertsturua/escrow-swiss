@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EscrowSwiss | Regulated Global Escrow Services</title>
+    
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- BULLETPROOF MOBILE MENU CSS -->
+    <style>
+        .nav-container {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--navy, #1e293b);
+            text-decoration: none;
+        }
+        .logo span { color: var(--gold, #d4af37); }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--navy, #1e293b);
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .mobile-toggle-btn {
+            display: none; 
+            font-size: 30px;
+            background: none;
+            border: none;
+            color: var(--navy, #1e293b);
+            cursor: pointer;
+            padding: 0;
+            line-height: 1;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle-btn {
+                display: block !important; 
+            }
+            .nav-links {
+                display: none; 
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 20px 0;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                text-align: center;
+                z-index: 1000;
+            }
+            .nav-links.active {
+                display: flex !important; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Security Alert Banner -->
+    <div class="alert-banner text-center" style="background-color: var(--navy, #1e293b); color: white; padding: 12px; font-size: 13px;">
+        <p style="margin:0;"><strong>ANTI-FRAUD NOTICE:</strong> EscrowSwiss operates strictly as a non-profit entity. We <strong>NEVER</strong> solicit upfront fees or down payments. Report suspicious activity to <a href="mailto:support@escrow-swiss.com" style="color: var(--gold, #d4af37);">support@escrow-swiss.com</a>.</p>
+    </div>
+
+    <!-- Navigation Bar -->
+    <header class="navbar" style="position: relative; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+        <div class="nav-container">
+            <!-- Clickable Logo -->
+            <a href="/" class="logo">Escrow<span>Swiss</span></a>
+            
+            <!-- Mobile Hamburger Menu Icon -->
+            <button class="mobile-toggle-btn" id="mobile-menu">☰</button>
+
+            <!-- Navigation Links -->
+            <ul class="nav-links" id="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/terms">Terms & Conditions</a></li>
+                <li><a href="/contact">Contact Us</a></li>
+                <li><a href="/track" style="color: var(--gold, #d4af37); font-weight: bold;">Track Status</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Script to make the mobile menu work -->
+    <script>
+        const menuBtn = document.getElementById('mobile-menu');
+        const navMenu = document.getElementById('nav-links');
+
+        menuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+    </script>

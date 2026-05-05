@@ -1,0 +1,356 @@
+<%- include('partials/header') %>
+
+    <!-- OFFICIAL INSTITUTIONAL PROGRESS BAR & RESPONSIVE STYLES -->
+    <style>
+        /* Base Step Circle (Upcoming/Default) */
+        .step-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #fff;
+            border: 2px solid #cbd5e1;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+            z-index: 2;
+            transition: all 0.3s ease;
+            margin: 0 auto;
+        }
+
+        /* Completed Steps: Institutional Green with Deep Emerald Outline */
+        .progress-step.active:not(.current) .step-circle {
+            background-color: #10b981 !important; 
+            border: 2px solid #064e3b !important; 
+            color: white !important;
+        }
+
+        /* Current Active Step (NORMAL): Fintech Blue with Subtle Breathing Glow */
+        .progress-step.current .step-circle {
+            background-color: #fff !important; 
+            border: 3px solid #2563eb !important; 
+            color: #2563eb !important;
+            animation: subtle-glow-blue 2.5s infinite alternate ease-in-out;
+        }
+
+        /* Current Active Step (ATTENTION): Yellow/Gold Warning */
+        .progress-step.alert-attention .step-circle {
+            border: 3px solid #eab308 !important; 
+            color: #eab308 !important;
+            animation: subtle-glow-yellow 2.5s infinite alternate ease-in-out;
+        }
+
+        /* Current Active Step (DECLINED): Red Danger */
+        .progress-step.alert-declined .step-circle {
+            border: 3px solid #ef4444 !important; 
+            color: #ef4444 !important;
+            animation: subtle-glow-red 2.5s infinite alternate ease-in-out;
+        }
+
+        /* Breathing Glow Animations */
+        @keyframes subtle-glow-blue {
+            0% { box-shadow: 0 0 4px rgba(37, 99, 235, 0.2), 0 0 0 2px rgba(37, 99, 235, 0.05); }
+            100% { box-shadow: 0 0 12px rgba(37, 99, 235, 0.5), 0 0 0 5px rgba(37, 99, 235, 0.15); }
+        }
+        @keyframes subtle-glow-yellow {
+            0% { box-shadow: 0 0 4px rgba(234, 179, 8, 0.2), 0 0 0 2px rgba(234, 179, 8, 0.05); }
+            100% { box-shadow: 0 0 12px rgba(234, 179, 8, 0.5), 0 0 0 5px rgba(234, 179, 8, 0.15); }
+        }
+        @keyframes subtle-glow-red {
+            0% { box-shadow: 0 0 4px rgba(239, 68, 68, 0.2), 0 0 0 2px rgba(239, 68, 68, 0.05); }
+            100% { box-shadow: 0 0 12px rgba(239, 68, 68, 0.5), 0 0 0 5px rgba(239, 68, 68, 0.15); }
+        }
+
+        /* DESKTOP LAYOUT (Default) */
+        .progress-bar-container {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px; 
+            background: white; 
+            padding: 40px 20px; 
+            border-radius: 8px; 
+            border: 1px solid #e2e8f0; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+        .progress-line { 
+            background-color: #e2e8f0 !important; 
+            position: absolute;
+            top: 60px; /* 40px padding + 20px (half of 40px circle) */
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            z-index: 1;
+        }
+        .progress-step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+            z-index: 2;
+        }
+        .progress-step span {
+            color: #94a3b8;
+            font-weight: 500;
+            margin-top: 15px;
+            font-size: 14px;
+            display: block;
+            transition: color 0.3s ease;
+        }
+        .progress-step.active:not(.current) span { color: #10b981; }
+        .progress-step.current span { color: #2563eb; font-weight: 700; }
+        .progress-step.alert-attention span { color: #eab308; font-weight: 700; }
+        .progress-step.alert-declined span { color: #ef4444; font-weight: 700; }
+
+        /* --- MOBILE RESPONSIVE FIXES (VERTICAL TIMELINE) --- */
+        @media (max-width: 768px) {
+            .fintech-header {
+                flex-direction: column !important;
+                padding: 20px !important;
+                gap: 15px !important;
+            }
+            .fintech-header-right {
+                border-left: none !important;
+                padding-left: 0 !important;
+                text-align: left !important;
+                width: 100%;
+                border-top: 1px solid rgba(255,255,255,0.1);
+                padding-top: 15px !important;
+            }
+            .fintech-timer-group {
+                justify-content: flex-start !important;
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 10px !important;
+            }
+            .fintech-timer-text { text-align: left !important; }
+            
+            /* Transforms horizontal bar into a sleek vertical timeline */
+            .progress-bar-container {
+                flex-direction: column !important;
+                padding: 30px 25px !important;
+                gap: 30px !important;
+            }
+            .progress-line {
+                top: 40px !important; 
+                bottom: 40px !important;
+                left: 44px !important; /* Perfectly centers the line behind the circles */
+                width: 2px !important;
+                height: auto !important;
+                right: auto !important;
+            }
+            .progress-step {
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                text-align: left !important;
+            }
+            .step-circle {
+                width: 38px !important;
+                height: 38px !important;
+                margin: 0 !important;
+                flex-shrink: 0; /* Prevents circles from squishing */
+            }
+            .progress-step span {
+                margin-top: 0 !important;
+                margin-left: 20px !important;
+                font-size: 15px !important;
+            }
+        }
+    </style>
+
+    <div class="page-header text-center" style="padding-bottom: 20px;">
+        <div class="container">
+            <h1>Live Transaction Status</h1>
+            <p>Secure administrative tracking environment.</p>
+        </div>
+    </div>
+
+    <section class="tracker-section bg-light" style="min-height: 60vh; padding-top: 20px;">
+        <div class="container">
+            <div class="tracker-widget" style="padding-top: 0; background: transparent; box-shadow: none;">
+                
+                <!-- UNIFIED FINTECH DASHBOARD HEADER -->
+                <div class="fintech-header" style="background: linear-gradient(135deg, #1e293b, var(--navy)); border-radius: 8px; padding: 30px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); gap: 20px;">
+                    
+                    <div style="flex: 1; min-width: 200px;">
+                        <p style="color: #94a3b8; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">Secure Transaction ID</p>
+                        <h4 style="color: white; font-size: 26px; margin-bottom: 5px; font-weight: 600; word-break: break-all;"><%= id %></h4>
+                        <% if (transaction.isEmailVisible) { %>
+                            <p style="color: #38bdf8; font-size: 14px; margin-bottom: 0; display: flex; align-items: center; gap: 8px;">
+                                <span style="background: rgba(56, 189, 248, 0.2); padding: 4px; border-radius: 50%; font-size: 10px;">🔒</span> <%= transaction.email %>
+                            </p>
+                        <% } %>
+                    </div>
+
+                    <div class="fintech-header-right" style="flex: 1; min-width: 200px; text-align: right; border-left: 1px solid rgba(255,255,255,0.1); padding-left: 20px;">
+                        <% if (transaction.timerState !== 'off' && transaction.timerDeadline) { %>
+                            <div class="fintech-timer-group" style="display: flex; justify-content: flex-end; align-items: center; gap: 15px;">
+                                <div class="fintech-timer-text" style="text-align: right;">
+                                    <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; display: block; margin-bottom: 3px;">
+                                        System State: <strong style="color: <%= transaction.timerState === 'running' ? '#10b981' : (transaction.timerState === 'expired' ? '#ef4444' : '#fbbf24') %>;"><%= transaction.timerState.toUpperCase() %></strong>
+                                    </span>
+                                    <span style="font-size: 12px; color: #cbd5e1; display: block;">
+                                        Deadline: <%= new Date(transaction.timerDeadline).toLocaleString([], {month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit'}) %>
+                                    </span>
+                                </div>
+                                <div style="background: rgba(0,0,0,0.3); padding: 12px 18px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05); width: 100%; max-width: 200px; text-align: center;">
+                                    <strong id="timer-display" style="font-size: 24px; color: var(--gold); font-family: 'Courier New', Courier, monospace;">
+                                        <%= transaction.timerState === 'expired' ? 'EXPIRED' : 'Calculating...' %>
+                                    </strong>
+                                </div>
+                            </div>
+                        <% } else { %>
+                            <span style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; display: block; margin-bottom: 5px;">Current Phase</span>
+                            <h5 style="color: #38bdf8; font-size: 20px; margin: 0;">
+                                <% if (transaction.status === 1) { %> Agreeing Terms <% } %>
+                                <% if (transaction.status === 2) { %> Sender Funding <% } %>
+                                <% if (transaction.status === 3) { %> Registering Receiver <% } %>
+                                <% if (transaction.status === 4) { %> Reviewing Transaction <% } %>
+                                <% if (transaction.status === 5) { %> Funds Released <% } %>
+                            </h5>
+                        <% } %>
+                    </div>
+                </div>
+
+                <!-- Detailed Information Panel -->
+                <div style="background-color: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 25px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
+                    <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 15px;">
+                        <div style="flex: 1; min-width: 150px;">
+                            <span style="font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: bold;">Asset Category</span>
+                            <p style="font-size: 15px; color: #333; margin-top: 5px; font-weight: 500;"><%= transaction.asset %></p>
+                        </div>
+                        <div style="flex: 1; min-width: 150px;">
+                            <span style="font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: bold;">Exact Specifications</span>
+                            <p style="font-size: 15px; color: #333; margin-top: 5px; font-weight: 500;"><%= transaction.assetDetails %></p>
+                        </div>
+                        <div style="flex: 1; min-width: 150px;">
+                            <span style="font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: bold;">Estimated Timeframe</span>
+                            <p style="font-size: 15px; color: #333; margin-top: 5px; font-weight: 500;"><%= transaction.estimatedTime %></p>
+                        </div>
+                    </div>
+
+                    <% if (transaction.additionalInfo && transaction.additionalInfo.trim() !== '') { %>
+                    <div style="background-color: #f8fafc; border-left: 4px solid var(--gold); padding: 15px; border-radius: 4px; margin-top: 20px;">
+                        <span style="font-size: 12px; color: var(--gold); text-transform: uppercase; font-weight: bold; display: block; margin-bottom: 5px;">Agent Directives & Notes</span>
+                        <p style="font-size: 14px; color: #475569; margin: 0;"><%= transaction.additionalInfo %></p>
+                    </div>
+                    <% } %>
+                </div>
+                
+                <!-- ALERT OVERRIDE BANNERS -->
+                <% if (transaction.alertState === 'attention') { %>
+                    <div style="background-color: #fefce8; border: 2px solid #eab308; border-radius: 8px; padding: 30px 20px; text-align: center; margin-bottom: 40px;">
+                        <div style="width: 60px; height: 60px; background-color: #eab308; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 35px; font-weight: bold; margin: 0 auto 15px;">!</div>
+                        <h2 style="color: #854d0e; margin-bottom: 10px; font-size: 24px;">Attention Required</h2>
+                        <p style="color: #a16207; font-size: 15px; max-width: 650px; margin: 0 auto; line-height: 1.6;">Administrative action is currently pending. To resolve this matter, please review any Agent Directives above, or reach out directly to our support team at <strong>support@swissescrow.org</strong> for immediate assistance.</p>
+                        <a href="/contact" class="btn" style="background-color: #ca8a04; color: white; margin-top: 20px; display: inline-block; border-radius: 4px; padding: 10px 20px; border: none; font-weight: bold; text-decoration: none;">Message Support Team</a>
+                    </div>
+                <% } else if (transaction.alertState === 'declined') { %>
+                    <div style="background-color: #fef2f2; border: 2px solid #ef4444; border-radius: 8px; padding: 30px 20px; text-align: center; margin-bottom: 40px;">
+                        <div style="width: 60px; height: 60px; background-color: #ef4444; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; font-weight: bold; margin: 0 auto 15px;">✕</div>
+                        <h2 style="color: #991b1b; margin-bottom: 10px; font-size: 24px;">Transaction Suspended / Frozen</h2>
+                        <p style="color: #b91c1c; font-size: 15px; max-width: 650px; margin: 0 auto; line-height: 1.6;">This transaction has been formally suspended by administrative oversight. All associated funds remain strictly secured in escrow pending legal resolution. To initiate a formal inquiry, please contact our compliance department at <strong>compliance@swissescrow.org</strong>.</p>
+                        <a href="/contact" class="btn" style="background-color: #b91c1c; color: white; margin-top: 20px; display: inline-block; border-radius: 4px; padding: 10px 20px; border: none; font-weight: bold; text-decoration: none;">Message Compliance Dept.</a>
+                    </div>
+                <% } %>
+
+                <!-- DYNAMIC PROGRESS BAR LOGIC -->
+                <% 
+                    const getCircleContent = (step) => {
+                        if (transaction.status > step) return '✓';
+                        if (transaction.status === step) {
+                            if (transaction.alertState === 'attention') return '!';
+                            if (transaction.alertState === 'declined') return '✕';
+                        }
+                        return step;
+                    };
+                    const getStepClasses = (step) => {
+                        let cls = "progress-step";
+                        if (transaction.status >= step) cls += " active";
+                        if (transaction.status === step) {
+                            cls += " current";
+                            if (transaction.alertState === 'attention') cls += " alert-attention";
+                            if (transaction.alertState === 'declined') cls += " alert-declined";
+                        }
+                        return cls;
+                    };
+                %>
+
+                <div class="progress-bar-container">
+                    <div class="progress-line"></div>
+                    
+                    <div class="<%= getStepClasses(1) %>">
+                        <div class="step-circle"><%= getCircleContent(1) %></div>
+                        <span><%= transaction.status > 1 ? 'Terms Agreed' : 'Agreeing Terms' %></span>
+                    </div>
+                    
+                    <div class="<%= getStepClasses(2) %>">
+                        <div class="step-circle"><%= getCircleContent(2) %></div>
+                        <span><%= transaction.status > 2 ? 'Sender Funded' : 'Sender Funding' %></span>
+                    </div>
+                    
+                    <div class="<%= getStepClasses(3) %>">
+                        <div class="step-circle"><%= getCircleContent(3) %></div>
+                        <span><%= transaction.status > 3 ? 'Receiver Registered' : 'Registering Receiver' %></span>
+                    </div>
+                    
+                    <div class="<%= getStepClasses(4) %>">
+                        <div class="step-circle"><%= getCircleContent(4) %></div>
+                        <span><%= transaction.status > 4 ? 'Reviewed' : 'Reviewing' %></span>
+                    </div>
+                    
+                    <div class="<%= getStepClasses(5) %>">
+                        <div class="step-circle"><%= getCircleContent(5) %></div>
+                        <span><%= transaction.status === 5 ? 'Funds Released' : 'Releasing Funds' %></span>
+                    </div>
+                </div>
+
+                <div style="margin-top: 40px; text-align: center;">
+                    <a href="/track" class="btn btn-outline" style="color: var(--navy); border-color: var(--navy);">Track Another ID</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LIVE TIMER JAVASCRIPT LOGIC -->
+    <% if (transaction.timerState === 'running' || transaction.timerState === 'paused') { %>
+        <script>
+            const deadline = new Date("<%= transaction.timerDeadline %>").getTime();
+            const state = "<%= transaction.timerState %>";
+            const alertState = "<%= transaction.alertState %>";
+            
+            function updateClock() {
+                const now = new Date().getTime();
+                const distance = deadline - now;
+
+                if (distance <= 0) {
+                    document.getElementById("timer-display").innerHTML = "EXPIRED";
+                    document.getElementById("timer-display").style.color = "#ef4444";
+                    
+                    if(state === 'running' && alertState !== 'attention') {
+                        setTimeout(() => window.location.reload(), 1500); 
+                    }
+                } else {
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    
+                    document.getElementById("timer-display").innerHTML = 
+                        (days > 0 ? days + "d " : "") + 
+                        (hours < 10 ? "0" + hours : hours) + ":" + 
+                        (minutes < 10 ? "0" + minutes : minutes) + ":" + 
+                        (seconds < 10 ? "0" + seconds : seconds);
+                }
+            }
+
+            if (state === 'running') {
+                setInterval(updateClock, 1000);
+            }
+            updateClock();
+        </script>
+    <% } %>
+
+<%- include('partials/footer') %>

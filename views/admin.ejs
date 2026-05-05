@@ -1,0 +1,84 @@
+<%- include('partials/header') %>
+
+    <div style="background-color: var(--navy-light); padding: 15px 0; border-bottom: 3px solid var(--gold);">
+        <div class="container" style="display: flex; gap: 20px; flex-wrap: wrap;">
+            <a href="/admin" style="color: var(--gold); text-decoration: none; font-weight: 600; font-size: 16px;">⛃ Transaction Database</a>
+            <a href="/admin/messages" style="color: white; text-decoration: none; font-weight: 600; font-size: 16px; position: relative;">
+                ✉️ Secure Inbox
+                <% if (unreadCount > 0) { %>
+                    <span style="background-color: #ef4444; color: white; font-size: 11px; padding: 2px 6px; border-radius: 10px; position: absolute; top: -10px; right: -20px;"><%= unreadCount %> New</span>
+                <% } %>
+            </a>
+        </div>
+    </div>
+
+    <div class="page-header" style="background-color: var(--navy); padding: 40px 20px;">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+            <div>
+                <h1 style="font-size: 32px; color: white;">Command Center</h1>
+                <p style="margin:0; color: #94a3b8;">Manage live database transactions and compliance alerts.</p>
+            </div>
+            <div>
+                <a href="/admin/add" class="btn btn-gold">+ Create New Transaction</a>
+            </div>
+        </div>
+    </div>
+
+    <section class="form-section" style="min-height: 60vh; background-color: white;">
+        <div class="container">
+            <div style="background: white; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow-x: auto; border: 1px solid #e2e8f0;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left; min-width: 700px;">
+                    <thead>
+                        <tr style="background-color: #f1f5f9; color: var(--navy); border-bottom: 2px solid #e2e8f0;">
+                            <th style="padding: 15px 20px;">Tracking ID</th>
+                            <th style="padding: 15px 20px;">Client Email</th>
+                            <th style="padding: 15px 20px;">Asset</th>
+                            <th style="padding: 15px 20px;">Status & Alerts</th>
+                            <th style="padding: 15px 20px; text-align: right;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (let id in database) { %>
+                            <!-- Highlight the entire row slightly red or yellow if there is an alert override -->
+                            <tr style="border-bottom: 1px solid #e2e8f0; background-color: <%= database[id].alertState === 'attention' ? '#fefce8' : (database[id].alertState === 'declined' ? '#fef2f2' : 'transparent') %>;">
+                                <td style="padding: 15px 20px;"><strong><%= id %></strong></td>
+                                <td style="padding: 15px 20px; color: #475569;"><%= database[id].email %> 
+                                    <span style="font-size: 11px; background: <%= database[id].isEmailVisible ? '#dcfce7' : '#fee2e2' %>; color: <%= database[id].isEmailVisible ? '#166534' : '#991b1b' %>; padding: 3px 8px; border-radius: 10px; margin-left: 5px; display: inline-block; margin-top: 5px;">
+                                        <%= database[id].isEmailVisible ? 'Public' : 'Hidden' %>
+                                    </span>
+                                </td>
+                                <td style="padding: 15px 20px; color: #475569;"><%= database[id].asset %></td>
+                                <td style="padding: 15px 20px;">
+                                    <!-- Normal 1-5 Status Badge -->
+                                    <span style="background: var(--navy); color: white; padding: 4px 10px; border-radius: 4px; font-size: 12px; display: inline-block; margin-bottom: 5px;">Phase <%= database[id].status %></span>
+                                    
+                                    <!-- Alert Override Badge -->
+                                    <% if (database[id].alertState === 'attention') { %>
+                                        <span style="background: #eab308; color: white; padding: 4px 10px; border-radius: 4px; font-size: 12px; display: inline-block; font-weight: bold;">⚠️ Attention</span>
+                                    <% } else if (database[id].alertState === 'declined') { %>
+                                        <span style="background: #ef4444; color: white; padding: 4px 10px; border-radius: 4px; font-size: 12px; display: inline-block; font-weight: bold;">❌ Declined</span>
+                                    <% } %>
+
+                                    <!-- Timer Indicator -->
+                                    <% if (database[id].timerState === 'running') { %>
+                                        <span style="color: #2563eb; font-size: 11px; display: block; margin-top: 5px; font-weight: bold;">⏱️ Timer Active</span>
+                                    <% } %>
+                                </td>
+                                <td style="padding: 15px 20px; text-align: right; display: flex; justify-content: flex-end; gap: 10px; flex-wrap: wrap;">
+                                    <a href="/admin/edit/<%= id %>" style="color: var(--gold); text-decoration: none; font-weight: bold; background: #fffbeb; padding: 8px 12px; border-radius: 4px; border: 1px solid var(--gold);">Edit</a>
+                                    <form action="/admin/delete/<%= id %>" method="POST" style="margin: 0;" onsubmit="return confirm('Are you sure you want to delete this transaction?');">
+                                        <button type="submit" style="color: #991b1b; font-weight: bold; background: #fee2e2; padding: 8px 12px; border-radius: 4px; border: 1px solid #f87171; cursor: pointer;">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+                <% if(Object.keys(database).length === 0) { %>
+                    <p style="padding: 30px; text-align: center; color: #64748b;">No active transactions. Click 'Create New Transaction' to begin.</p>
+                <% } %>
+            </div>
+        </div>
+    </section>
+
+<%- include('partials/footer') %>
