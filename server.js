@@ -218,4 +218,4 @@ app.post('/admin/messages/delete/:id', requireAdmin, (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running securely on port ${PORT}`));
+app.listen(PORT, '0.0.0.0', () => console.log(`Server running securely on port ${PORT}`));
